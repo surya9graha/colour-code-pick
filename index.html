@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Color Palette Generator</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial;
+}
+
+body{
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+}
+
+/* LOGO */
+
+.logo{
+font-size:34px;
+font-weight:bold;
+margin-top:20px;
+background:linear-gradient(45deg,#ff0080,#ff8c00,#40e0d0);
+-webkit-background-clip:text;
+color:transparent;
+}
+
+/* BLOG THUMBNAIL */
+
+.thumbnail{
+margin:30px auto;
+width:90%;
+max-width:1000px;
+padding:40px;
+border-radius:20px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
+box-shadow:0 10px 40px rgba(0,0,0,0.4);
+}
+
+.thumbnail h1{
+font-size:42px;
+margin-bottom:10px;
+}
+
+.thumbnail p{
+opacity:0.8;
+}
+
+/* TOOL SECTION */
+
+.tool{
+margin-top:30px;
+}
+
+.palette{
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+gap:20px;
+margin-top:30px;
+}
+
+.color-box{
+width:160px;
+height:160px;
+border-radius:14px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+color:black;
+font-weight:bold;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
+transition:0.3s;
+}
+
+.color-box:hover{
+transform:scale(1.05);
+}
+
+.color-code{
+margin-top:10px;
+background:white;
+padding:5px 10px;
+border-radius:6px;
+font-size:14px;
+cursor:pointer;
+}
+
+/* BUTTON */
+
+button{
+margin-top:30px;
+padding:12px 28px;
+border:none;
+border-radius:10px;
+font-size:16px;
+cursor:pointer;
+background:#00ffc3;
+font-weight:bold;
+}
+
+button:hover{
+transform:scale(1.05);
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+background:#00ffc3;
+color:black;
+padding:10px 20px;
+border-radius:8px;
+display:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="logo">ColorGen Pro</div>
+
+<div class="thumbnail">
+<h1>Free Color Palette Generator</h1>
+<p>Create beautiful color combinations instantly for your design</p>
+</div>
+
+<div class="tool">
+
+<button onclick="generateColors()">Generate Palette</button>
+
+<div class="palette" id="palette"></div>
+
+</div>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+
+function randomColor(){
+
+let letters="0123456789ABCDEF";
+let color="#";
+
+for(let i=0;i<6;i++){
+
+color+=letters[Math.floor(Math.random()*16)];
+
+}
+
+return color;
+
+}
+
+function showToast(){
+
+let toast=document.getElementById("toast");
+
+toast.style.display="block";
+
+setTimeout(()=>{
+
+toast.style.display="none";
+
+},1500);
+
+}
+
+function generateColors(){
+
+let palette=document.getElementById("palette");
+
+palette.innerHTML="";
+
+for(let i=0;i<6;i++){
+
+let color=randomColor();
+
+let box=document.createElement("div");
+
+box.className="color-box";
+
+box.style.background=color;
+
+box.innerHTML=`
+<div>${color}</div>
+<div class="color-code">Copy</div>
+`;
+
+box.onclick=function(){
+
+navigator.clipboard.writeText(color);
+
+showToast();
+
+}
+
+palette.appendChild(box);
+
+}
+
+}
+
+generateColors();
+
+</script>
+
+</body>
+</html>
